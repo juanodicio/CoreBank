@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+
+  local-db:
+    image: postgres:12-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: app_pass
+      POSTGRES_USER: app_user
+      POSTGRES_DB: bank_core
+    networks:
+      - bank-core-network
+
+networks:
+  bank-core-network:
