@@ -1,0 +1,2 @@
+# Treat DbContext snapshot as binary
+app/src/Infrastructure/Persistence/Migrations/AppDbContextModelSnapshot.cs binary
