@@ -1,4 +1,5 @@
 using Application;
+using Application.Persistence;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,9 +12,9 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // AppDbContext will use DbContextConfigurator to load model configuration from this assembly
+            // AppDbContext uses DbContextConfigurator to load model configuration from this assembly
             // this decouples Application and Infrastructure layers
-            services.AddTransient<IDbContextConfigurator, DbContextConfigurator>();
+            services.AddTransient<IDbContextModelConfigurator, DbContextModelConfigurator>();
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(
@@ -22,6 +23,7 @@ namespace Infrastructure
                     {
                         builder.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
                     });
+                options.LogTo(System.Console.WriteLine, new[] {DbLoggerCategory.Database.Name});
             });
             return services;
         }
