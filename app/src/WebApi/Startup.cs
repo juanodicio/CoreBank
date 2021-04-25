@@ -1,3 +1,5 @@
+using Application;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,9 +9,6 @@ using Microsoft.OpenApi.Models;
 
 namespace WebApi
 {
-    using Infrastructure.Persistence;
-    using Microsoft.EntityFrameworkCore;
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -22,17 +21,13 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    builder => builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
-            });
+            services.AddApplication();
+            services.AddInfrastructure(Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CoreBank", Version = "v1" });
             });
         }
 
@@ -43,7 +38,11 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CoreBank v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();
