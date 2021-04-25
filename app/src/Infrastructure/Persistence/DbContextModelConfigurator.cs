@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Infrastructure.Persistence
 {
-    public class DbContextConfigurator : IDbContextConfigurator
+    public class DbContextModelConfigurator : IDbContextModelConfigurator
     {
         public void Configure(ModelBuilder builder)
         {

@@ -1,12 +1,10 @@
-using Application;
-using Application.Client.Commands.CreateClient;
+using Application.Modules.Client.Commands.CreateClient;
+using Application.Persistence;
 using Domain;
-using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Model.Client;
 
 namespace WebApi.Controllers
 {

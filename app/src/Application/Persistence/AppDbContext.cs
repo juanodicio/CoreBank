@@ -1,23 +1,22 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Reflection;
+using Domain;
 
-namespace Application
+namespace Application.Persistence
 {
     public class AppDbContext : DbContext
     {
-        private readonly IDbContextConfigurator _configurator;
+        private readonly IDbContextModelConfigurator _modelConfigurator;
 
-        public DbSet<Domain.Client> Clients { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options, IDbContextConfigurator configurator) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options, IDbContextModelConfigurator modelConfigurator) : base(options)
         {
-            _configurator = configurator;
+            _modelConfigurator = modelConfigurator;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            _configurator.Configure(modelBuilder);
+            _modelConfigurator.Configure(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
     }
