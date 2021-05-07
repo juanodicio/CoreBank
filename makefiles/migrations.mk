@@ -14,6 +14,10 @@ migrations.remove:
 	dotnet ef migrations remove \
 		--startup-project app/src/WebApi \
 		--project app/src/Infrastructure
+		
+migrations.script:
+	dotnet ef migrations script $(name) --idempotent \
+		--startup-project app/src/WebApi
 
 db.update:
 	dotnet ef database update $(migration) \
