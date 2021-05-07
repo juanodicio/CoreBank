@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Domain;
+using Domain.Entities;
 
 namespace Application.Persistence
 {
@@ -7,7 +8,7 @@ namespace Application.Persistence
     {
         private readonly IDbContextModelConfigurator _modelConfigurator;
 
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options, IDbContextModelConfigurator modelConfigurator) : base(options)
         {
