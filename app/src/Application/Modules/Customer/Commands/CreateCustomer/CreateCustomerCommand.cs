@@ -1,47 +1,46 @@
 using Application.Persistence;
-using Domain;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Modules.Client.Commands.CreateClient
+namespace Application.Modules.Customer.Commands.CreateCustomer
 {
-    public class CreateClientCommand: IRequest<CreateClientResponse>
+    public class CreateCustomerCommand: IRequest<CreateCustomerResponse>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
 
-    public class CreateClientHandler : IRequestHandler<CreateClientCommand, CreateClientResponse>
+    public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResponse>
     {
         private readonly AppDbContext _context;
 
-        public CreateClientHandler(AppDbContext context)
+        public CreateCustomerHandler(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<CreateClientResponse> Handle(CreateClientCommand request, CancellationToken cancellationToken)
+        public async Task<CreateCustomerResponse> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var client = new Domain.Client()
+            var customer = new Domain.Entities.Customer()
             {
                 Id = new Guid(), FirstName = request.FirstName, LastName = request.LastName
             };
 
-            _context.Clients.Add(client);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync(cancellationToken);
             
-            var response =  new CreateClientResponse()
+            var response =  new CreateCustomerResponse()
             {
-                Id = client.Id, FirstName = client.FirstName, LastName = client.LastName, CreatedAt = client.CreatedAt, UpdatedAt = client.UpdatedAt
+                Id = customer.Id, FirstName = customer.FirstName, LastName = customer.LastName, CreatedAt = customer.CreatedAt, UpdatedAt = customer.UpdatedAt
             };
 
             return response;
         }
     }
 
-    public class CreateClientResponse
+    public class CreateCustomerResponse
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

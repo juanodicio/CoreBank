@@ -1,9 +1,9 @@
 
 using System;
 
-namespace Domain
+namespace Domain.Entities
 {
-    public class Client
+    public class Customer
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
